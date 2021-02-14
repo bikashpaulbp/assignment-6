@@ -19,17 +19,26 @@ const showImages = (images) => {
   gallery.innerHTML = '';
   // show gallery title
   galleryHeader.style.display = 'flex';
-  
+
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
-    
+
   })
   spinnerToggle();
 
 }
+
+document.getElementById("search").addEventListener("keypress", function (event) {
+
+  if (event.key === 'Enter') {
+    document.getElementById("search-btn").click();
+  }
+});
+
+
 
 const getImages = (query) => {
   spinnerToggle();
@@ -37,7 +46,7 @@ const getImages = (query) => {
     .then(response => response.json())
     .then(data => showImages(data.hits))
     .catch(err => console.log(err))
-    
+
 }
 
 
@@ -46,7 +55,7 @@ let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
   element.classList.add('added');
- 
+
   let item = sliders.indexOf(img);
   if (item === -1) {
     sliders.push(img);
@@ -77,13 +86,13 @@ const createSlider = () => {
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;
   let sliderDuration = 1000;
-  if(duration > 0){
+  if (duration > 0) {
     sliderDuration = duration;
   }
-  else{
+  else {
     alert('Hey, Please input positive value')
   }
-  
+
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -137,7 +146,7 @@ sliderBtn.addEventListener('click', function () {
   createSlider()
 })
 
-const spinnerToggle = () =>{
+const spinnerToggle = () => {
   const spinnerItem = document.getElementById("spinner")
 
   spinnerItem.classList.toggle("d-none")
